@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:teaching_bloc/src/di/base_module.dart';
 import 'package:teaching_bloc/src/movies/data/repository/movie_repository.dart';
 import 'package:teaching_bloc/src/movies/domain/usecase/fetch_all_movies_use_case.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_bloc.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_event.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_state.dart';
+import 'package:teaching_bloc/src/network/base_api_client.dart';
 
 class MoviePage extends StatelessWidget {
   const MoviePage({super.key});
@@ -14,7 +16,7 @@ class MoviePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => MovieBloc(
         FetchMoviesUseCase(
-          MovieRepositoryImpl(),
+          MovieRepositoryImpl(getIt<ApiClient>()),
         ),
       )..add(Intialized()),
       child: Scaffold(

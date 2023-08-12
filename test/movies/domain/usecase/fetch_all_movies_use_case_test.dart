@@ -13,19 +13,19 @@ void main() {
 
     final movies = [
       MovieModel(
-        title: 'Ogbanje movie',
-        posterPath: 'https://linktofile.png',
-        overview: 'This is ogbanje movie',
-        releaseDate: '19/02/2023',
-        id: 1,
-      ),
+          title: 'Ogbanje movie',
+          posterPath: 'https://linktofile.png',
+          overview: 'This is ogbanje movie',
+          releaseDate: '19/02/2023',
+          id: 1,
+          rating: 1),
       MovieModel(
-        title: 'Agbado movie',
-        posterPath: 'https://linktofile.png',
-        overview: 'This is agbado best movie part 1',
-        releaseDate: '19/02/2023',
-        id: 2,
-      )
+          title: 'Agbado movie',
+          posterPath: 'https://linktofile.png',
+          overview: 'This is agbado best movie part 1',
+          releaseDate: '19/02/2023',
+          id: 2,
+          rating: 2)
     ];
 
     setUp(() {

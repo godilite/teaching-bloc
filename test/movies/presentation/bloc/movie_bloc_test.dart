@@ -15,12 +15,12 @@ void main() {
     late MovieBloc bloc;
 
     final movieItem = MovieModel(
-      title: 'Ogbanje movie',
-      posterPath: 'https://linktofile.png',
-      overview: 'This is ogbanje movie',
-      releaseDate: '19/02/2023',
-      id: 1,
-    );
+        title: 'Ogbanje movie',
+        posterPath: 'https://linktofile.png',
+        overview: 'This is ogbanje movie',
+        releaseDate: '19/02/2023',
+        id: 1,
+        rating: 3);
 
     setUp(() {
       fetchMoviesUseCaseMock = FetchMoviesUseCaseMock();

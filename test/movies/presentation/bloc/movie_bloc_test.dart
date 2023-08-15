@@ -77,7 +77,6 @@ void main() {
           FetchError(),
         ],
       );
-
       blocTest<MovieBloc, MovieState>(
         'should emit fetching when RetryPressed Event is added, then, calls fetchMoviesUseCaseMock and emits Loaded State if successful',
         build: () => bloc,

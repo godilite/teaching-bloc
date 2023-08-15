@@ -77,13 +77,26 @@ void main() {
           FetchError(),
         ],
       );
-    },
-  );
-
+      
       blocTest<MovieBloc, MovieState>(
-        'should emit fetching when RetryPressed Event is added, then, calls fetchMoviesUseCaseMock and emits Loaded State if successful', 
+        'should emit fetching when RetryPressed Event is added, then, calls fetchMoviesUseCaseMock and emits Loaded State if successful',
         build: () => bloc,
-  );
+        setUp: () {
+          when(() => fetchMoviesUseCaseMock.execute()).thenAnswer(
+            (_) async {
+              return [movieItem];
+            },
+          );
+        },
+        act: (bloc) => bloc.add(RetryPressed()),
+        expect: () => [
+          Fetching(),
+          Loaded([movieItem]),
+        ],
+        verify: (bloc) => verify(
+          () => fetchMoviesUseCaseMock.execute(),
+        ).called(1),
+      );
       blocTest(
         'should emit fetching when RetryPressed Event is added, then, calls fetchMoviesCaseMock and emits an error if it fails',
         build: () => bloc,

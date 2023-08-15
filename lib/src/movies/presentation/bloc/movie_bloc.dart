@@ -25,11 +25,11 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   void _onRetryPressed(RetryPressed event, Emitter<MovieState> emit) async {
     emit(Fetching());
 
-    //TODO:: Try and catch this
-    //TODO:: Add unit test
-
-    final movies = await fetchMoviesUseCase.execute();
-
-    emit(Loaded(movies));
+    try {
+      final movies = await fetchMoviesUseCase.execute();
+      emit(Loaded(movies));
+    } catch (_) {
+      emit(FetchError());
+    }
   }
 }

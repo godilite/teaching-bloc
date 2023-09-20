@@ -7,6 +7,7 @@ import 'package:teaching_bloc/src/movies/presentation/bloc/movie_bloc.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_event.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_state.dart';
 import 'package:teaching_bloc/src/network/base_api_client.dart';
+import 'package:teaching_bloc/src/movies/presentation/widgets/search_field.dart';
 
 class MoviePage extends StatelessWidget {
   const MoviePage({super.key});
@@ -14,42 +15,53 @@ class MoviePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MovieBloc(
-        FetchMoviesUseCase(
-          MovieRepositoryImpl(getIt<ApiClient>()),
-        ),
-      )..add(Intialized()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Movies'),
-        ),
-        body: BlocBuilder<MovieBloc, MovieState>(
-          builder: (context, state) {
-            return switch (state) {
-              FetchError() => const Center(
-                  child: Text('Something went wrong!'),
+        create: (context) => MovieBloc(
+              FetchMoviesUseCase(
+                MovieRepositoryImpl(getIt<ApiClient>()),
+              ),
+            )..add(
+                Intialized(),
+              ),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              "What do you want to watch?",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+          ),
+          body: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                SearchField(),
+                SizedBox(
+                  height: 10,
                 ),
-              Fetching() => const Center(
-                  child: CircularProgressIndicator(),
+                ExpandedMovie(
+                  title: Text("What's popular"),
                 ),
-              Loaded(movies: var data) => data.isEmpty
-                  ? const NoMovieWidget()
-                  : ListView.builder(
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        final movie = data[index];
-
-                        return ListTile(
-                          title: Text(movie.title),
-                          subtitle: Text(movie.overview),
-                        );
-                      },
-                    ),
-            };
-          },
-        ),
-      ),
-    );
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandedMovie(
+                  title: Text("Top Rated"),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandedMovie(
+                  title: Text("Upcoming"),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandedMovie(
+                  title: Text("Discover"),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
 
@@ -75,6 +87,49 @@ class NoMovieWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+
+class ExpandedMovie extends StatelessWidget {
+  const ExpandedMovie({super.key, required this.title});
+
+  final Widget title;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MovieBloc, MovieState>(
+      builder: (context, state) {
+        return switch (state) {
+          FetchError() => const Center(
+              child: Text('Something has gone wrong'),
+            ),
+          Fetching() => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          Loaded(movies: var data) => data.isEmpty
+              ? const NoMovieWidget()
+              : ExpansionTile(
+                  title: title,
+                  children: [
+                    ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final movie = data[index];
+
+                        return ListTile(
+                          title: Text(movie.title),
+                          subtitle: Text(movie.overview),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+        };
+      },
     );
   }
 }

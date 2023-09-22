@@ -44,6 +44,12 @@ class MoviePage extends StatelessWidget {
                   height: 10,
                 ),
                 ExpandedMovie(
+                  title: Text("Now Playing"),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ExpandedMovie(
                   title: Text("Top Rated"),
                 ),
                 SizedBox(
@@ -51,12 +57,6 @@ class MoviePage extends StatelessWidget {
                 ),
                 ExpandedMovie(
                   title: Text("Upcoming"),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                ExpandedMovie(
-                  title: Text("Discover"),
                 )
               ],
             ),

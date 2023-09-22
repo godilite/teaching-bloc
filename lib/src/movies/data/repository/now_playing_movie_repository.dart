@@ -1,14 +1,14 @@
 import 'package:teaching_bloc/src/movies/domain/models/movie_model.dart';
-import 'package:teaching_bloc/src/movies/domain/repository/upcoming_movies_repository.dart';
+import 'package:teaching_bloc/src/movies/domain/repository/now_playing_movie_repository.dart';
 import 'package:teaching_bloc/src/network/base_api_client.dart';
 
-class UpcomingMovieRepositoryImpl implements UpcomingMovieRepository {
+class NowPlayingMovieRepositoryImpl implements NowPlayingMovieRepository {
   final String apiKey = '9615d585fe799a30b4302e086d95622e';
-  static String movieURL = 'https://api.themoviedb.org/3/movie/upcoming';
+  final String movieURL = 'https://api.themoviedb.org/3/movie/now_playing';
   final ApiClient _client;
-  UpcomingMovieRepositoryImpl(this._client);
+  NowPlayingMovieRepositoryImpl(this._client);
   @override
-  Future<List<MovieModel>> fetchUpcomingMovies() async {
+  Future<List<MovieModel>> fetchNowPlayingMovies() async {
     final params = {
       'api_key': apiKey,
       'language': 'en-US',

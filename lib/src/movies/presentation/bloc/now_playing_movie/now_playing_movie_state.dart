@@ -9,11 +9,11 @@ sealed class NowPlayingMovieState extends Equatable{
 class Fetching extends NowPlayingMovieState{}
 
 class Loaded extends NowPlayingMovieState{
-  final List<MovieModel> movies;
+  final List<MovieModel> nowPlayingMovies;
 
-  Loaded(this.movies);
+  Loaded(this.nowPlayingMovies);
   @override
-  List<Object?> get props => [movies];
+  List<Object?> get props => [nowPlayingMovies];
 }
 
 class FetchError extends NowPlayingMovieState{}

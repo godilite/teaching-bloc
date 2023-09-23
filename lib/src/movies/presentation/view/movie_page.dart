@@ -10,6 +10,7 @@ import 'package:teaching_bloc/src/network/base_api_client.dart';
 import 'package:teaching_bloc/src/movies/presentation/widgets/search_field.dart';
 import 'package:teaching_bloc/src/movies/presentation/view/upcoming_movies.dart';
 import 'package:teaching_bloc/src/movies/presentation/view/top_rated_movie.dart';
+import 'package:teaching_bloc/src/movies/presentation/view/now_playing_movies.dart';
 
 class MoviePage extends StatelessWidget {
   const MoviePage({super.key});
@@ -45,9 +46,7 @@ class MoviePage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                ExpandedMovie(
-                  title: Text("Now Playing"),
-                ),
+                NowPlayingMovie(),
                 SizedBox(
                   height: 10,
                 ),

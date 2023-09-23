@@ -4,14 +4,14 @@ import 'package:teaching_bloc/src/movies/presentation/bloc/top_rated_movie/top_r
 import 'package:teaching_bloc/src/movies/presentation/bloc/top_rated_movie/top_rated_movie_state.dart';
 
 class TopRatedMovieBloc extends Bloc<TopRatedMovieEvent, TopRatedMovieState> {
-  final FetchTopRatesMoviesUsecase fetchTopRatesMoviesUsecase;
+  final FetchTopRatedMoviesUsecase fetchTopRatesMoviesUsecase;
   TopRatedMovieBloc(this.fetchTopRatesMoviesUsecase) : super(Fetching()) {
-    on<Intialized>(_onInitialized);
+    on<Initialized>(_onInitialized);
     on<RetryPressed>(_onRetryPressed);
   }
 
   void _onInitialized(
-      Intialized event, Emitter<TopRatedMovieState> emit) async {
+      Initialized event, Emitter<TopRatedMovieState> emit) async {
     emit(Fetching());
 
     try {

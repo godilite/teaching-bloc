@@ -9,11 +9,11 @@ sealed class TopRatedMovieState extends Equatable {
 class Fetching extends TopRatedMovieState {}
 
 class Loaded extends TopRatedMovieState {
-  final List<MovieModel> movies;
-  Loaded(this.movies);
+  final List<MovieModel> topRatedMovies;
+  Loaded(this.topRatedMovies);
 
   @override
-  List<Object?> get props => [movies];
+  List<Object?> get props => [topRatedMovies];
 }
 
 class FetchError extends TopRatedMovieState {}

@@ -7,6 +7,7 @@ class FetchMoviesUseCase {
   FetchMoviesUseCase(this.movieRepository);
 
   Future<List<MovieModel>> execute() async {
-    return await movieRepository.fetchAllMovies();
+     final movies = await movieRepository.fetchAllMovies();
+    return movies;
   }
 }

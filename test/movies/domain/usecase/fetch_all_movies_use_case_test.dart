@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:teaching_bloc/src/movies/domain/models/movie_model.dart';
 import 'package:teaching_bloc/src/movies/domain/repository/movie_repository.dart';
 import 'package:teaching_bloc/src/movies/domain/usecase/fetch_all_movies_use_case.dart';
+import 'package:teaching_bloc/src/movies/dto/move_type.dart';
 
 class MovieRepositoryMock extends Mock implements MovieRepository {}
 
@@ -33,29 +34,26 @@ void main() {
       fetchMoviesUseCase = FetchMoviesUseCase(movieRepositoryMock);
     });
 
-    test('Returns list of two movies when execute() method is called',
-        () async {
-      when(() => movieRepositoryMock.fetchAllMovies())
-          .thenAnswer((_) async => movies);
+    test('Returns list of two movies when execute() method is called', () async {
+      when(() => movieRepositoryMock.fetchAllMovies(MovieType.popular)).thenAnswer((_) async => movies);
 
-      final result = await fetchMoviesUseCase.execute();
+      final result = await fetchMoviesUseCase.execute(MovieType.popular);
 
       expect(result.length, equals(2));
     });
 
     test('Throws error when newtowrk error occurs', () async {
-      when(() => movieRepositoryMock.fetchAllMovies()).thenThrow(Exception());
+      when(() => movieRepositoryMock.fetchAllMovies(MovieType.popular)).thenThrow(Exception());
 
-      final result = fetchMoviesUseCase.execute();
+      final result = fetchMoviesUseCase.execute(MovieType.popular);
 
       expect(result, throwsA(isA<Exception>()));
     });
 
     test('Verify that first movie in list is `Ogbanje movie`', () async {
-      when(() => movieRepositoryMock.fetchAllMovies())
-          .thenAnswer((_) async => movies);
+      when(() => movieRepositoryMock.fetchAllMovies(MovieType.popular)).thenAnswer((_) async => movies);
 
-      final result = await fetchMoviesUseCase.execute();
+      final result = await fetchMoviesUseCase.execute(MovieType.popular);
 
       expect(result.first.title, equals('Ogbanje movie'));
     });

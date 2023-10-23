@@ -3,6 +3,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:teaching_bloc/src/movies/domain/models/movie_model.dart';
 import 'package:teaching_bloc/src/movies/domain/usecase/fetch_all_movies_use_case.dart';
+import 'package:teaching_bloc/src/movies/dto/move_type.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_bloc.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_event.dart';
 import 'package:teaching_bloc/src/movies/presentation/bloc/movie_state.dart';
@@ -26,15 +27,14 @@ void main() {
 
       setUp(() {
         fetchMoviesUseCaseMock = FetchMoviesUseCaseMock();
-        bloc = MovieBloc(fetchMoviesUseCaseMock);
+        bloc = MovieBloc(fetchMoviesUseCaseMock, MovieType.popular);
       });
 
       blocTest<MovieBloc, MovieState>(
         'emit Fetching and Loaded with 1 item when Initilized Event is added',
         build: () => bloc,
         setUp: () {
-          when(() => fetchMoviesUseCaseMock.execute())
-              .thenAnswer((_) async => [movieItem]);
+          when(() => fetchMoviesUseCaseMock.execute(MovieType.popular)).thenAnswer((_) async => [movieItem]);
         },
         act: (bloc) => bloc.add(Intialized()),
         expect: () => [
@@ -42,7 +42,7 @@ void main() {
           Loaded([movieItem])
         ],
         verify: (_) => [
-          verify(() => fetchMoviesUseCaseMock.execute()).called(1),
+          verify(() => fetchMoviesUseCaseMock.execute(MovieType.popular)).called(1),
         ],
       );
 
@@ -50,8 +50,7 @@ void main() {
         'emit Fetching and Loaded when Initilized Event is added',
         build: () => bloc,
         setUp: () {
-          when(() => fetchMoviesUseCaseMock.execute())
-              .thenAnswer((_) async => []);
+          when(() => fetchMoviesUseCaseMock.execute(MovieType.popular)).thenAnswer((_) async => []);
         },
         act: (bloc) => bloc.add(Intialized()),
         expect: () => [
@@ -59,7 +58,7 @@ void main() {
           isA<Loaded>(),
         ],
         verify: (_) => [
-          verify(() => fetchMoviesUseCaseMock.execute()).called(1),
+          verify(() => fetchMoviesUseCaseMock.execute(MovieType.popular)).called(1),
         ],
       );
 
@@ -67,7 +66,7 @@ void main() {
         'should emit FetchError when fetchMoviesUseCaseMock returns an error',
         build: () => bloc,
         setUp: () {
-          when(() => fetchMoviesUseCaseMock.execute()).thenThrow(
+          when(() => fetchMoviesUseCaseMock.execute(MovieType.popular)).thenThrow(
             Exception(),
           );
         },
@@ -77,12 +76,12 @@ void main() {
           FetchError(),
         ],
       );
-      
+
       blocTest<MovieBloc, MovieState>(
         'should emit fetching when RetryPressed Event is added, then, calls fetchMoviesUseCaseMock and emits Loaded State if successful',
         build: () => bloc,
         setUp: () {
-          when(() => fetchMoviesUseCaseMock.execute()).thenAnswer(
+          when(() => fetchMoviesUseCaseMock.execute(MovieType.popular)).thenAnswer(
             (_) async {
               return [movieItem];
             },
@@ -94,14 +93,14 @@ void main() {
           Loaded([movieItem]),
         ],
         verify: (bloc) => verify(
-          () => fetchMoviesUseCaseMock.execute(),
+          () => fetchMoviesUseCaseMock.execute(MovieType.popular),
         ).called(1),
       );
       blocTest(
         'should emit fetching when RetryPressed Event is added, then, calls fetchMoviesCaseMock and emits an error if it fails',
         build: () => bloc,
         setUp: () {
-          when(() => fetchMoviesUseCaseMock.execute()).thenThrow(
+          when(() => fetchMoviesUseCaseMock.execute(MovieType.popular)).thenThrow(
             Exception(),
           );
         },
@@ -111,7 +110,7 @@ void main() {
           FetchError(),
         ],
         verify: (bloc) => verify(
-          () => fetchMoviesUseCaseMock.execute(),
+          () => fetchMoviesUseCaseMock.execute(MovieType.popular),
         ).called(1),
       );
     },
